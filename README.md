@@ -42,7 +42,7 @@ catkin_make
 ```
 ### Running in Docker
 
-Docker helps to run an application with all dependencies and libraries bundled together. Make sure to [install Docker](https://docs.docker.com/get-docker/)first.
+Docker helps to run an application with all dependencies and libraries bundled together. Make sure to [install Docker](https://docs.docker.com/get-docker/) first.
 
 First run:
 
@@ -86,12 +86,12 @@ To visualize the robot's camera view, you can run the ```rqt_image_view``` node:
 **Subscribed Topics**
 
 **Published Topics**
-* **```/cmd_vel```**[geometry_msgs/Twist](http://docs.ros.org/en/api/geometry_msgs/html/msg/Twist.html)
+* **```/cmd_vel```** [(geometry_msgs/Twist)](http://docs.ros.org/en/api/geometry_msgs/html/msg/Twist.html)
     
     The linear and angular velocities to move the robot
     
 **Services**
-* **```command_robot```**
+* **```/ball_chaser/command_robot```**
 
    Publishes linear and angular velocities to the robot's wheel joints and returns the requested velocities. 
 
@@ -100,6 +100,9 @@ To visualize the robot's camera view, you can run the ```rqt_image_view``` node:
 ### **process_image**
 
 **Subscribed Topics**
+* **```/camera/rgb/image_raw```** [(sensor_msgs/Image)](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Image.html)
+
+   To read the image data inside a callback function
 
 **Published Topics**
 
