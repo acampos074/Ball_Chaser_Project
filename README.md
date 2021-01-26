@@ -9,9 +9,11 @@ The robot's task is to chase a white ball and stop if either the ball is outside
 
 ### License
 
+The source code is released under an [MIT license.](https://opensource.org/licenses/MIT)
+
 **Author: Andres Campos**
 
-Both ```my_robot``` and ```ball_chaser``` packages have been tested under  [ROS](https://www.ros.org/) Kinetic on Ubuntu 16.04. This code is for personal learning and any fitness for a paticular purpose is disclaimed. 
+Both ```my_robot``` and ```ball_chaser``` packages have been tested under  [ROS](https://www.ros.org/) Kinetic on Ubuntu 16.04. This code is for personal learning and any fitness for a paticular purpose is disclaimed.
 
 ## Installation
 
@@ -37,83 +39,45 @@ To build from source, clone the latest version from this repository into your ca
 cd catkin_workspace/src
 git clone https://github.com/acampos074/Ball_Chaser_Project.git
 cd ../
-rosdep install --from-paths . --ignore-src
 catkin_make
-```
-### Running in Docker
-
-Docker helps to run an application with all dependencies and libraries bundled together. Make sure to [install Docker](https://docs.docker.com/get-docker/) first.
-
-First run:
-
-```docker run -ti --rm --name ros-container ros:kinetic bash```
-
-Next, create a catkin workspace, clone the package, and build it:
-
-```
-apt-get update && apt-get install -y git
-mkdir -p /ws/src && cd /ws/src
-git clone https://github.com/acampos074/Ball_Chaser_Project.git
-cd ..
-rosdep install --from-path src
-catkin_make
-source devel/setup.bash
-roslaunch ros_package_template ros_package_template.launch
 ```
 
 ## Usage
 
-Run this code to launch the ```my_robot``` ROS package which contains the robot and the world:
+Navigate to the ```/src/scripts``` directory, and launch the shell script:
 
-```roslaunch my_robot world.launch```
-
-The ```ball_chaser.launch``` will run both nodes ```drive_bot``` and ```process image```. On a different terminal, run the ```ball_chaser``` ROS package:
-
-```roslaunch ball_chaser ball_chaser.launch```
-
-To visualize the robot's camera view, you can run the ```rqt_image_view``` node:
-
-```rosrun rqt_image_view rqt_image_view```
+```./chase_ball.sh```
 
 ## Launch files
-* **world.launch**:
-* **ball_chaser.launch**:
+* **world.launch**: Gazebo launch and world file
+* **ball_chaser.launch**: The robot's ball chaser algorithm
 
 ## Nodes
 
 ### **drive_bot**
 
-**Subscribed Topics**
-
 **Published Topics**
 * **```/cmd_vel```** [(geometry_msgs/Twist)](http://docs.ros.org/en/api/geometry_msgs/html/msg/Twist.html)
-    
-    The linear and angular velocities to move the robot
-    
+
+    Contains the linear and angular velocities to move the robot
+
 **Services**
 * **```/ball_chaser/command_robot```**
 
-   Publishes linear and angular velocities to the robot's wheel joints and returns the requested velocities. 
-
-**Parameters**
+   Publishes linear and angular velocities to the robot's wheel joints and provides a response message to the **client** containing the requested velocities.
 
 ### **process_image**
 
 **Subscribed Topics**
 * **```/camera/rgb/image_raw```** [(sensor_msgs/Image)](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Image.html)
 
-   To read the image data inside a callback function
-
-**Published Topics**
+   Reads the image data of an RGB camera
 
 **Services**
-* **```???```**
+* **```/ball_chaser/command_robot```**
 
-   Requests a service via a client to drive the robot towards the white ball
-
-**Parameters**
+   Calls the **server** and sends the linear and angular velocities from the *process_image_callback* function.
 
 ## Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/acampos074/Ball_Chaser_Project/issues)
-
